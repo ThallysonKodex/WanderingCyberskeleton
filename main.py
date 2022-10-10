@@ -62,7 +62,6 @@ items.append(gun1)
 font = pygame.font.SysFont("Arial", 40)
 
 
-
 f3 = False
 
 # Test
