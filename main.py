@@ -23,6 +23,10 @@ class AllAssets(pygame.sprite.Group):
         self.level.draw_map(self.offset).draw(screen)
         player.particling(screen)
 
+        screen.blit(circle_surf(30, (150, 150, 150)), [234 + 25, 235 + 25], special_flags=pygame.BLEND_RGB_ADD)
+        screen.blit(circle_surf(35, (150, 50, 50)), [234 + 25 - 3, 235 + 25 - 3], special_flags=pygame.BLEND_RGB_ADD)
+        screen.blit(circle_surf(45, (50, 50, 50)), [234 + 25 - 9, 235 + 25 - 9], special_flags=pygame.BLEND_RGB_ADD)
+        screen.blit(circle_surf(45 * 2, (14, 10, 10)), [234 + 25 - (18 + 13), 235 + 25 - (18 + 12)], special_flags=pygame.BLEND_RGB_ADD)
         for sprite in sorted(self.sprites(), key= lambda a: a.rect.centery):
             offset = sprite.rect.center - self.offset
             screen.blit(sprite.image, offset)
@@ -57,7 +61,18 @@ items.append(gun1)
 
 font = pygame.font.SysFont("Arial", 40)
 
+
+
 f3 = False
+
+# Test
+def circle_surf(radius, color):
+    surf = pygame.Surface((radius, radius))
+    pygame.draw.ellipse(surf, color, surf.get_rect(), radius)
+    surf.set_colorkey((0, 0, 0))
+    return surf
+
+
 
 while True:
 
@@ -79,6 +94,10 @@ while True:
 
     allAssets.drawing(screen)
     allAssets.update(screen, dt, items)
+
+
+
+
 
 
 
