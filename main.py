@@ -5,7 +5,7 @@ from Map.Level import Level
 from Map.map import level_1
 from Map.map import tile_size
 from Map.map import WINDOW_WIDTH, WINDOW_HEIGHT
-
+from Entities.Gun import Gun
 
 class AllAssets(pygame.sprite.Group):
     def __init__(self):
@@ -22,9 +22,17 @@ class AllAssets(pygame.sprite.Group):
 
         self.level.draw_map(self.offset).draw(screen)
         player.particling(screen)
+
         for sprite in sorted(self.sprites(), key= lambda a: a.rect.centery):
             offset = sprite.rect.center - self.offset
             screen.blit(sprite.image, offset)
+            for item in player.itemification:
+                offset1 = item.rect
+                screen.blit(item.image, offset)
+            for item in items:
+                screen.blit(item.image, item.rect.center - self.offset)
+                item.draw(screen)
+                item.update()
 
 
 
@@ -34,9 +42,18 @@ screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("The sparks")
 clock = pygame.time.Clock()
 
-allAssets = AllAssets()
 
+allAssets = AllAssets()
+items = []
 player = Player((336, 622), tile_size, allAssets)
+
+gun = Gun((336, 500))
+items.append(gun)
+gun1 = Gun((100, 800))
+items.append(gun1)
+
+
+
 
 font = pygame.font.SysFont("Arial", 40)
 
@@ -46,7 +63,7 @@ while True:
 
     screen.fill((50, 50, 50))
 
-    dt = clock.tick(120) / 1000
+    dt = clock.tick() / 1000
 
 
     for event in pygame.event.get():
@@ -60,10 +77,8 @@ while True:
                 f3 = False
 
 
-
     allAssets.drawing(screen)
-    allAssets.update(screen, dt)
-
+    allAssets.update(screen, dt, items)
 
 
 
@@ -72,5 +87,7 @@ while True:
         screen.blit(font.render(f"X {player.rect.centerx}", False, (255, 255, 255)), (50, 50))
         screen.blit(pygame.Surface((100, 50)), (50, 100))
         screen.blit(font.render(f"Y {player.rect.centery}", False, (255, 255, 255)), (50, 100))
+        screen.blit(pygame.Surface((100, 50)), (50, 150))
+        screen.blit(font.render(f"FPS {round(clock.get_fps())}", False, (255, 255, 255)), (50, 150))
 
     pygame.display.update()
