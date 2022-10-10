@@ -1,6 +1,6 @@
 import pygame, random
 from Map.map import WINDOW_WIDTH, WINDOW_HEIGHT
-from Entities.Gun import Gun
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, size, group):
         super().__init__(group)
