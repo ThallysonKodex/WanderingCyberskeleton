@@ -9,7 +9,8 @@ class Torch(Item):
         self.img = img
         self.drop = 1
         self.pos = pos
-        self.image = pygame.transform.scale(pygame.image.load(self.img).convert_alpha(), (tile_size * self.drop, tile_size * self.drop))
+        self.angle = 1
+        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(self.img).convert_alpha(), (tile_size * self.drop, tile_size * self.drop)), self.angle)
         self.rect = self.image.get_rect(center = pos)
         self.on_player = False
 

@@ -146,6 +146,14 @@ class Player(pygame.sprite.Sprite):
 
         if len(self.itemification) != 0:
             self.itemification[0].update()
+
+
+
+        for item in self.itemification:
+            item.on_player = True
+            item.pos = (250, 250)
+
+
         self.movement(dt)
         self.input(items)
         self.animation(dt)

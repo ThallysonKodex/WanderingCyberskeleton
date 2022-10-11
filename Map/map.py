@@ -21,3 +21,4 @@ level_1 = [
 tile_size = 32 + 16
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 500, 500
+
