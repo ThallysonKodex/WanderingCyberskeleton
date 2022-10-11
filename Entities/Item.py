@@ -52,7 +52,7 @@ class Item(pygame.sprite.Sprite):
         elif self.on_player == False:
             self.drop = 1
         self.image = pygame.transform.scale(pygame.image.load(self.img).convert_alpha(), (tile_size * self.drop, tile_size * self.drop))
-    def update(self):
+    def update(self, dt):
 
 
         self.check_on_player()

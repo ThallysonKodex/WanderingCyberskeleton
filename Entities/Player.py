@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
         self.last_posx = 0
         self.last_posy = 0
         self.bullet_group = pygame.sprite.Group
-        self.timer = 0
+        self.timer = 4
         self.group = group
         self.particle_direction = 'down'
         self.size = size
@@ -35,10 +35,6 @@ class Player(pygame.sprite.Sprite):
 
     def collisions(self, items):
         pass
-
-
-
-
 
 
 
@@ -95,8 +91,8 @@ class Player(pygame.sprite.Sprite):
                     if self.itemification[0].on_player == False:
                         self.itemification[0].on_player = True
 
-            if ms == (1, 0, 0):
-                if len(self.itemification) != 0 and self.timer == 60:
+            if ms[0]:
+                if len(self.itemification) != 0 and self.timer == 4:
                     self.timer = 0
                     self.bullets.append(Bullet(pygame.math.Vector2((250, 250))))
 
@@ -152,18 +148,18 @@ class Player(pygame.sprite.Sprite):
     def update(self, screen, dt, items):
         self.countdown = 1
         self.timer += self.countdown
-        if self.timer >= 60:
+        if self.timer >= 4:
             self.countdown = 0
-            self.timer = 60
+            self.timer = 4
         if self.timer == 0:
             self.countdown = 1
 
 
         if len(self.itemification) != 0:
-            self.itemification[0].update()
+            self.itemification[0].update(dt)
 
 
-        print(self.timer)
+
         for item in self.itemification:
 
             item.on_player = True

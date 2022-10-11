@@ -43,7 +43,7 @@ class AllAssets(pygame.sprite.Group):
                 screen.blit(item.image, item.rect.center - self.offset)
 
                 item.draw(screen)
-                item.update()
+                item.update(dt)
 
             surfend = pygame.transform.scale(pygame.image.load("graphics/gui/0.png").convert_alpha(), (200, 100))
 
@@ -63,7 +63,7 @@ class AllAssets(pygame.sprite.Group):
             for item in player.itemification:
 
                 img2 = item.gui_image
-                screen.blit(img2, (425, 420))
+                screen.blit(img2, (430, 425))
 
 
 
@@ -82,6 +82,7 @@ player = Player((336, 622), tile_size, allAssets)
 gun = Gun((336, 500), "graphics/guns/0.png")
 items.append(gun)
 gun1 = Gun((250, 250), "graphics/guns/0.png")
+
 items.append(gun1)
 
 
