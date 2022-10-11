@@ -1,9 +1,11 @@
 import pygame, math
 from Entities.Item import Item
 from Map.map import tile_size
+from Entities.Bullet import Bullet
 
 
 class Gun(Item):
+
     def __init__(self, pos, img):
         super().__init__(pos, img)
 
@@ -14,12 +16,18 @@ class Gun(Item):
         self.image = pygame.transform.scale(pygame.image.load(self.img).convert_alpha(), (tile_size * self.drop, tile_size * self.drop))
         self.rect = self.image.get_rect(center = self.pos)
         self.gui_image = pygame.transform.scale(pygame.image.load(self.img).convert_alpha(), (tile_size * self.drop, tile_size * self.drop))
-
         self.on_player = False
         self.correction_angle = 90
-
+        self.bullet_group = pygame.sprite.Group()
         self.rot_image = self.image
         self.rot_image_rect = self.rect
+
+
+
+
+
+
+
 
 
 
@@ -34,7 +42,7 @@ class Gun(Item):
 
             self.rot_image = pygame.transform.rotate(self.image, angle)
             self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
-
+            self.x, self.y = self.rot_image_rect.x, self.rot_image_rect.y
 
 
     def update(self):

@@ -10,6 +10,7 @@ from Objects.Gun import Gun
 import math
 
 
+
 class AllAssets(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
@@ -33,14 +34,14 @@ class AllAssets(pygame.sprite.Group):
             mx, my = pygame.mouse.get_pos()
             offset = sprite.rect.center - self.offset
             screen.blit(sprite.image, offset)
-            for item in player.itemification:
-                pass
+
 
 
 
             for item in items:
                 item.on_player = False
                 screen.blit(item.image, item.rect.center - self.offset)
+
                 item.draw(screen)
                 item.update()
 

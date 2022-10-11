@@ -1,14 +1,15 @@
 import pygame, random
 from Map.map import WINDOW_WIDTH, WINDOW_HEIGHT
-
+from Objects import Gun
+from Entities.Bullet import Bullet
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, size, group):
         super().__init__(group)
 
         self.last_posx = 0
         self.last_posy = 0
-
-        self.timer = 60
+        self.bullet_group = pygame.sprite.Group
+        self.timer = 0
         self.group = group
         self.particle_direction = 'down'
         self.size = size
@@ -27,6 +28,10 @@ class Player(pygame.sprite.Sprite):
         self.speed = 600
 
         self.itemification = []
+
+        self.bullets = []
+
+
 
     def collisions(self, items):
         pass
@@ -49,6 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.frames = [pygame.image.load(f"{self.path}down/{frame}.png").convert_alpha() for frame in range(7)]
 
     def input(self, items):
+        ms = pygame.mouse.get_pressed()
         ks = pygame.key.get_pressed()
         self.direction.y = 0
         self.direction.x = 0
@@ -89,7 +95,10 @@ class Player(pygame.sprite.Sprite):
                     if self.itemification[0].on_player == False:
                         self.itemification[0].on_player = True
 
-
+            if ms == (1, 0, 0):
+                if len(self.itemification) != 0 and self.timer == 60:
+                    self.timer = 0
+                    self.bullets.append(Bullet(pygame.math.Vector2((250, 250))))
 
     def animation(self, dt):
         if self.direction.magnitude() != 0:
@@ -136,25 +145,45 @@ class Player(pygame.sprite.Sprite):
                 self.particles.remove(particle)
 
             pygame.draw.rect(screen, particle[3], (particle[0][0], particle[0][1], particle[2], particle[2]))
-    def draw(self):
-        pass
+
+
+
+
     def update(self, screen, dt, items):
-        if self.timer != 60:
-            self.timer -= 1
-        if self.timer <= 0:
+        self.countdown = 1
+        self.timer += self.countdown
+        if self.timer >= 60:
+            self.countdown = 0
             self.timer = 60
+        if self.timer == 0:
+            self.countdown = 1
+
 
         if len(self.itemification) != 0:
             self.itemification[0].update()
 
 
-
+        print(self.timer)
         for item in self.itemification:
+
             item.on_player = True
             item.pos = (250, 250)
+
+
 
 
         self.movement(dt)
         self.input(items)
         self.animation(dt)
+
+
+
+
+
+        for bullet in self.bullets:
+            if bullet.y >= 500 or bullet.x >= 500:
+                self.bullets.remove(bullet)
+            bullet.update(screen, dt)
+
+
 
