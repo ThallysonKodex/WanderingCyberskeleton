@@ -19,7 +19,6 @@ class Player(pygame.sprite.Sprite):
         self.frame = 0
         self.image = pygame.transform.scale(self.frames[self.frame], (self.size, self.size))
         self.rect = self.image.get_rect(center = pos)
-        self.stepping_sound = pygame.mixer.Sound("sounds/stepping.mp3")
 
         self.have = False
 
@@ -33,7 +32,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    def collisions(self, items):
+    def collisions(self):
         pass
 
 
@@ -41,7 +40,7 @@ class Player(pygame.sprite.Sprite):
     def movement(self, dt):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
-            self.stepping_sound.play()
+
 
         self.position += self.direction * self.speed * dt
         self.rect.center = self.position
@@ -171,7 +170,7 @@ class Player(pygame.sprite.Sprite):
         self.movement(dt)
         self.input(items)
         self.animation(dt)
-
+        self.collisions()
 
 
 

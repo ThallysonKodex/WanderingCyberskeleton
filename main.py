@@ -1,7 +1,9 @@
-import pygame, sys
+import pygame, sys, threading
 from Entities.Player import Player
 from Map.Level import Level
 from Map.map import level_1
+
+
 from Map.map import tile_size
 from Map.map import WINDOW_WIDTH, WINDOW_HEIGHT
 from Entities.Item import Item
@@ -11,20 +13,23 @@ import math
 
 
 
+
 class AllAssets(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self.offset = pygame.math.Vector2()
 
         self.level = Level(level_1)
-
+        self.stepping = pygame.mixer.Sound("sounds/stepping.mp3")
         self.undX, self.undY = 32, 27
         self.cx, self.cy = 110, 110
+        self.explodex = 0
+        self.explodey = 0
 
     def drawing(self, screen):
 
-        self.offset.x = player.rect.centerx - WINDOW_WIDTH / 2
-        self.offset.y = player.rect.centery - WINDOW_HEIGHT / 2
+        self.offset.x = player.rect.centerx - WINDOW_WIDTH / 2 + self.explodex
+        self.offset.y = player.rect.centery - WINDOW_HEIGHT / 2 + self.explodey
 
 
         self.level.draw_map(self.offset).draw(screen)
@@ -66,6 +71,9 @@ class AllAssets(pygame.sprite.Group):
                 screen.blit(img2, (430, 425))
 
 
+
+
+            print(self.explodex)
 
 
 
@@ -116,7 +124,7 @@ while True:
     screen.fill('red')
 
 
-    dt = clock.tick(144) / 1000
+    dt = clock.tick() / 1000
 
 
     for event in pygame.event.get():
@@ -130,8 +138,12 @@ while True:
                 f3 = False
 
 
-    allAssets.drawing(screen)
-    allAssets.update(screen, dt, items)
+
+    t2 = threading.Thread(target=allAssets.drawing(screen))
+    t2.start()
+    t = threading.Thread(target=allAssets.update(screen, dt, items))
+    t.start()
+
 
     for item in player.itemification:
         if item.on_player == True:
@@ -146,5 +158,7 @@ while True:
         screen.blit(font.render(f"X {player.rect.centerx}", False, (255, 255, 255)), (50, 50))
         screen.blit(font.render(f"Y {player.rect.centery}", False, (255, 255, 255)), (50, 50 + 18))
         screen.blit(font.render(f"FPS {round(clock.get_fps())}", False, (255, 255, 255)), (50, 50 + 18 * 2))
+
+
 
     pygame.display.update()

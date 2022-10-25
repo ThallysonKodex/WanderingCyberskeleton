@@ -1,3 +1,11 @@
+class ZoomIn:
+    def __init__(self):
+        self.zoom = 0
+
+    def zoom_update(self):
+        self.zoom += 1
+
+
 level_1 = [
            '  XXXXXXXXXXXX           XXXXXXX',
            ' XXXXXXXXXXXXXX         XXXXXXXXX',
@@ -18,7 +26,11 @@ level_1 = [
            ' XXXXXXXXXXXXXX ',
            '  XXXXXXXXXXXX  ']
 
-tile_size = 32 + 16
+
+zoom = ZoomIn()
+
+tile_size = 32 + 16 + zoom.zoom
+
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 500, 500
 
